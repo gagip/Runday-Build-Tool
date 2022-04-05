@@ -3,9 +3,10 @@ import qrcode
 
 class QRCodeAPI:
 
-    def create_qrcode(self, url):
+    def create_qrcode(self, url, save_file_name, callback):
         img = qrcode.make(url)
-        img.save('qrcode.png')
+        img.save(save_file_name)
+        callback()
 
 
 class BitlyAPI:

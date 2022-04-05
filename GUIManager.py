@@ -21,6 +21,10 @@ class GUIManager(QWidget):
         self.submit_button = QPushButton("제출")
         self.result_dialog = MyApp()
         self.result_dialog.hide()
+        self.live_qrcode_dialog = QRCodeDialog('라이브', 'qrcode_live.png')
+        self.live_qrcode_dialog.hide()
+        self.test_qrcode_dialog = QRCodeDialog('테스트', 'qrcode_test.png')
+        self.test_qrcode_dialog.hide()
 
         self.initUI()
 
@@ -60,17 +64,20 @@ class GUIManager(QWidget):
         patch_note = self.patch_note.toPlainText()
         note = self.note.toPlainText()
 
+        dialog.clear_text()
         dialog.set_title(f'[Runday] AOS QA 빌드 파일 공유 - {version}')
         dialog.append_text(f'안녕하세요 손찬우입니다. 이번 버전 {version} QA 빌드 공유드립니다.')
         dialog.append_text('\n\n')
         dialog.append_text('■ 다운로드 링크')
         if live_cdn.strip() != '':
-            live_cdn_url = self.shorten_url(live_cdn)
+            live_cdn_url = self.shorten_url(live_cdn, True)
             dialog.append_text(f'\t- 라이브 서버: {live_cdn_url}')
+            self.live_qrcode_dialog.show()
             dialog.append_text('\n\n')
         if test_cdn.strip() != '':
-            test_cdn_url = self.shorten_url(test_cdn)
+            test_cdn_url = self.shorten_url(test_cdn, False)
             dialog.append_text(f'\t- 테스트 서버: {test_cdn_url}')
+            self.test_qrcode_dialog.show()
         dialog.append_text('\n\n')
         if patch_note.strip() != '':
             dialog.append_text('■ 적용사항')
@@ -83,14 +90,36 @@ class GUIManager(QWidget):
         dialog.append_text('감사합니다.')
         dialog.append_text('손찬우 드림')
 
-    def shorten_url(self, url):
+    def shorten_url(self, url, is_live: bool):
         shorten_url = bitlyAPI.shorten_url(url)
         if shorten_url == '':
             return url
         else:
-            qrcodeAPI.create_qrcode(url)
+            qrcodeAPI.create_qrcode(url, 'qrcode_live.png' if is_live else 'qrcode_test.png', self.updateQRImage)
             return shorten_url
 
+    def updateQRImage(self):
+        self.live_qrcode_dialog.updateImage()
+        self.test_qrcode_dialog.updateImage()
+
+
+class QRCodeDialog(QWidget):
+    def __init__(self, title, fileName):
+        super().__init__()
+        self.qPixmapVar = QPixmap()
+        self.fileName = fileName
+        self.image_label = QLabel()
+        self.image_label.setPixmap(self.qPixmapVar)
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.image_label)
+        self.setLayout(vbox)
+
+        self.setWindowTitle(title)
+        self.show()
+
+    def updateImage(self):
+        self.qPixmapVar.load(self.fileName)
+        self.image_label.setPixmap(self.qPixmapVar)
 
 class MyApp(QWidget):
 
@@ -102,7 +131,6 @@ class MyApp(QWidget):
         self.le = QLineEdit()
 
         self.tb = QTextBrowser()
-        self.tb.setAcceptRichText(True)
         self.tb.setOpenExternalLinks(True)
 
         self.clear_btn = QPushButton('Clear')
