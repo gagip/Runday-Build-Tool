@@ -3,7 +3,7 @@ import os.path
 
 import PyQt5.QtWidgets
 
-from GUIManager import GUIManager
+from gui_manager import GUIManager
 
 
 if __name__ == '__main__':

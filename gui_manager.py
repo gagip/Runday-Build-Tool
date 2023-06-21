@@ -2,7 +2,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import (QWidget, QGridLayout, QLabel, QLineEdit, QTextEdit, QPushButton, QVBoxLayout, QTextBrowser,
                              QHBoxLayout)
 
-from CDNManger import BitlyAPI, QRCodeAPI
+from qr_manger import BitlyAPI, QRCodeAPI
 
 bitlyAPI = BitlyAPI()
 qrcodeAPI = QRCodeAPI()
