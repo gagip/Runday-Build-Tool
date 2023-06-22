@@ -5,3 +5,6 @@
 main.spec
 .idea/
 __pycache__
+.env
+.venv
+.vscode
