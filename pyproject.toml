@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "runday-build-tool"
+version = "0.1.0"
+description = ""
+authors = ["gagip <gagip94@ttam.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-dotenv = "^1.0.1"
+qrcode = "^7.4.2"
+requests = "^2.32.2"
+PyQt5 = "*"
+PyQt5-Qt5 = {version = "5.15.2"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
