@@ -1,7 +1,14 @@
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-                             QPushButton, QTextBrowser, QTextEdit, QVBoxLayout,
-                             QWidget)
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QTextBrowser,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 from src.qr_manger import BitlyAPI, QRCodeAPI
 

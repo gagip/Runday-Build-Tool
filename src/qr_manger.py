@@ -21,7 +21,8 @@ class BitlyAPI:
         response = requests.get(self.BASE_URL + end_point, headers=headers)
         try:
             result = response.json()["groups"][0]["guid"]
-        except:
+        except Exception as e:
+            print(e)
             result = ""
 
         return result
@@ -38,10 +39,13 @@ class BitlyAPI:
             "domain": "bit.ly",
             "group_guid": f"{self.group_guid}",
         }
-        response = requests.post(self.BASE_URL + end_point, headers=headers, json=data)
+        response = requests.post(
+            url=self.BASE_URL + end_point, headers=headers, json=data
+        )
         try:
             result = response.json()["link"]
-        except:
+        except Exception as e:
+            print(e)
             result = ""
 
         return result
